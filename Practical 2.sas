@@ -53,15 +53,21 @@ select 	a.Product_id,
 		sum(b.quantity) as n "Number Sold"
 from orion.product_dim as a join orion.order_fact as b 
 	on a.Product_id = b.Product_id
-	WHERE int((Order_date-'01JAN2010'd)) > 0
-	group by a.product_name
+	WHERE int(Order_date-'01JAN2010'd) > 0
+	group by a.product_name, a.product_id
 	order by calculated n desc, a.product_name;
 quit; 
 
 /* Question 6 */
 proc sql;
 title;
-select 
+select  a.employee_name,
+		a.city,
+		b.job_title "Job Title"
+	from orion.employee_addresses as a 
+	outer join orion.sales as b on a.employee_id = b.employee_id
+	order by a.city asc, b.job_title, a.employee_name;
+quit;
 
 
 
