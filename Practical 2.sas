@@ -65,12 +65,17 @@ select  a.employee_name,
 		a.city,
 		b.job_title "Job Title"
 	from orion.employee_addresses as a 
-	outer join orion.sales as b on a.employee_id = b.employee_id
+	left join orion.sales as b on a.employee_id = b.employee_id
 	order by a.city asc, b.job_title, a.employee_name;
 quit;
 
-
-
-
-
-
+/* Question  7 */
+proc sql;
+select b.quantity,
+		a.product_name,
+		a.product_id
+		from orion.product_dim as a join orion.order_fact as b
+		on a.product_id = b.product_id
+		where b.quantity = 0
+	;
+quit;
