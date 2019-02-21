@@ -42,6 +42,29 @@ select  Employee_Id "Employee ID",
 		int((Employee_Hire_Date - Birth_Date)/365.25) as Age
 
 	from orion.employee_payroll;
+	title;
 quit;
 /* Question 5 */
+
 proc sql;
+title "Number of Items Sold since 1 January 2010";
+select 	a.Product_id,
+		a.product_name,
+		sum(b.quantity) as n "Number Sold"
+from orion.product_dim as a join orion.order_fact as b 
+	on a.Product_id = b.Product_id
+	WHERE int((Order_date-'01JAN2010'd)) > 0
+	group by a.product_name
+	order by calculated n desc, a.product_name;
+quit; 
+
+/* Question 6 */
+proc sql;
+title;
+select 
+
+
+
+
+
+
