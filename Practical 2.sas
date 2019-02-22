@@ -26,13 +26,14 @@ quit;
 
 /* Question 3 */
 proc sql;
-TITLE "Cities Where Employees Live";
-SELECT city, count(*) AS Number
+TITLE "Cities Where Orion Star Employees Live";
+SELECT City, count(*) AS Number
 	FROM orion.employee_addresses
-	GROUP BY city
-	ORDER BY city;
+	GROUP BY City
+	ORDER BY City;
 TITLE;
 quit;
+
 
 /* Question 4 */
 proc sql;
@@ -51,7 +52,8 @@ TITLE "Number of Units Sold Since 1 January 2010";
 SELECT 	product_table.Product_id "Product ID",
 		product_table.product_name "Prodcut Name",
 		sum(order_table.quantity) AS number_sold "Number of Units Sold"
-	FROM orion.product_dim AS product_table JOIN orion.order_fact AS order_table 
+	FROM orion.product_dim AS product_table 
+	INNER JOIN orion.order_fact AS order_table 
 	ON product_table.Product_id = order_table.Product_id
 	WHERE int(Order_date-'01JAN2010'd) > 0
 	GROUP BY product_table.product_name, product_table.product_id
@@ -61,26 +63,23 @@ quit;
 
 /* Question 6 */
 proc sql;
-title;
-SELECT  address_table.employee_name "Employee Name",
-		address_table.city "City of Residence" ,
-		sales_table.job_title "Job Title",
-		CASE 
-			WHEN sales_table.job_title is missing THEN "Not in Sales Dept."
-			ELSE sales_table.job_title 
-		END AS Job "Job Title v.2"
+TITLE "Cities where Orion Star Employees Live";
+SELECT  address_table.Employee_Name "Employee Name",
+		address_table.City "City of Residence",
+		sales_table.Job_Title "Job Title"
 		FROM orion.employee_addresses AS address_table 
 		LEFT JOIN orion.sales AS sales_table on address_table.employee_id = sales_table.employee_id
-		ORDER BY a.city ASC, b.job_title ASC, a.employee_name ASC;
+		ORDER BY address_table.City ASC, sales_table.job_title ASC, address_table.employee_name ASC;
+TITLE;
 quit;
 
 /* Question  7 */
 proc sql;
-select b.quantity,
-		a.product_name,
-		a.product_id
-		from orion.product_dim as a join orion.order_fact as b
-		on a.product_id = b.product_id
-		where b.quantity = 0
-	;
+TITLE "Number of Product with Zero Sales";
+SELECT 	"Number of Products",
+		count(CASE WHEN order_table.Quantity = 0 THEN "None" END) AS Number
+		FROM orion.product_dim AS product_table 
+		JOIN orion.order_fact AS order_table
+		ON product_table.Product_ID = order_table.Product_ID;
+TITLE;
 quit;
