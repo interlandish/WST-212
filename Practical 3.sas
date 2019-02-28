@@ -30,3 +30,17 @@ select 	country,
 		group by country 
 		order by calculated C ASC;
 quit; 
+
+*Question 2;
+proc sql;
+TITLE "Countries with More Female than Male";
+select  country "Country",
+		count(case when gender = 'M' then 'n' end) as Male "Male Customers" ,
+		count(case when gender = 'F' then 'n' end) as Female "Female Customers"
+		from orion.customer
+		group by country
+		having male < female
+		order by Female desc;
+
+quit;
+
