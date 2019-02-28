@@ -17,3 +17,16 @@ select 'Total Percent of Male Customers',
 
 ;
 quit;
+
+* Question 1;
+proc sql;
+TITLE "Customer Demographics: Gender by Country";
+select 	country,
+		Count(*) as count "Total",
+		count(case when gender = 'M' then 'n' end) as A "Count Male",
+		count(case when gender = 'F' then 'n' end) as B "Count Female",
+		count(case when gender = 'M' then 'n' end)/count(*) as C "Percent Male" format=percent10.2
+		from orion.customer
+		group by country 
+		order by calculated C ASC;
+quit; 
