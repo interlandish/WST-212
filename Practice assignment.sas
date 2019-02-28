@@ -49,7 +49,7 @@ proc sql;
 
 TITLE "Where orion star emplyees reside";
 select  distinct upcase(country), 
-		city,  
+		propcase(city),  
 		count(*) as Count from orion.employee_addresses
 group by city;
 quit;
