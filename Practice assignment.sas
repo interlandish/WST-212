@@ -54,3 +54,44 @@ select  distinct upcase(country),
 group by city;
 quit;
 
+*Question 4;
+proc sql;
+TITLE "US and Australian
+Catalogue and Internet Customers Purchasing Foreign Manufactured Products";
+
+select customer_table.customer_name,
+	count(*) as bought "Purchases"
+	from orion.customer as customer_table 
+	LEFT JOIN orion.order_fact as order_table
+	ON customer_table.customer_id = order_table.customer_id 
+	LEFT JOIN orion.product_dim as product_table
+	On order_table.product_id = product_table.product_id
+	where ((upcase(customer_table.country) = 'US' AND upcase(product_table.supplier_country) <> 'US') 
+		OR (upcase(customer_table.country) = 'AU' AND upcase(product_table.supplier_country) <> 'AU'))
+		AND order_table.employee_id = 99999999
+	group by customer_table.customer_name
+	order by calculated bought desc,
+			customer_table.customer_name ASC
+	;
+quit; 
+
+proc sql;
+TITLE "US and Australian
+Catalogue and Internet Customers Purchasing Foreign Manufactured Products";
+
+select customer_table.customer_name,
+	count(*) as bought "Purchases"
+	from orion.product_dim as product_table 
+	INNER JOIN orion.order_fact as order_table
+	On order_table.product_id = product_table.product_id
+	INNER JOIN orion.customer as customer_table
+	ON customer_table.customer_id = order_table.customer_id 
+	
+	where ((upcase(customer_table.country) = 'US' AND upcase(product_table.supplier_country) <> 'US') 
+		OR (upcase(customer_table.country) = 'AU' AND upcase(product_table.supplier_country) <> 'AU'))
+		AND order_table.employee_id = 99999999
+	group by customer_table.customer_name
+	order by calculated bought desc,
+			customer_table.customer_name ASC
+	;
+quit; 
