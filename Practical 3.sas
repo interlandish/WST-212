@@ -44,3 +44,13 @@ select  country "Country",
 
 quit;
 
+*Question 3;
+proc sql;
+
+TITLE "Where orion star emplyees reside";
+select  distinct upcase(country), 
+		city,  
+		count(*) as Count from orion.employee_addresses
+group by city;
+quit;
+
