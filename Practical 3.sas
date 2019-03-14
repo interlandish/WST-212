@@ -23,3 +23,20 @@ SELECT  customer_id "Customer ID"
 		FROM orion.order_fact;
 TITLE;
 quit;
+
+*Question 4;
+proc sql;
+SELECT  "Total Paid to All Female Sales Representatives",
+		sum(Salary) format=dollar15.2 "Total Salary",
+		Count(*) "Number"
+		FROM orion.salesstaff 
+		WHERE upcase(Gender) = 'F'
+		AND Job_title LIKE '%Rep%'
+		UNION
+		SELECT  "Total Paid to All Male Sales Representatives",
+		sum(Salary) format=dollar15.2,
+		Count(*)
+		FROM orion.salesstaff 
+		WHERE upcase(Gender) = 'M'
+		AND Job_title LIKE '%Rep%';
+quit;
