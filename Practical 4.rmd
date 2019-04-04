@@ -1,0 +1,147 @@
+---
+title: "Assignment 4 Data Visualisation"
+author: 'WST 212 2019'
+date: "Due date 09 April 2019 before 13h00"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+Group Number: 
+
+Group members: (Alphabetically)
+
+1.) Modise KM
+
+2.) Rakgalakane TTT
+
+3.) Tsoku K
+
+4.)
+
+
+--------------------------------------------------------------------------------------------------------------
+
+Instructions:
+
+.	Not more than four students in a group.
+
+.	All students in a group will be allocated the same mark.
+
+.	Only submit one assignment per group.
+
+.	Only one submission per assignment will be allowed. Hence, only submit once all group members have agreed.
+
+.	Use template below to answer all questions. Make sure that your questions are numbered correctly and that your answers correspond to the correct questions. If your answer is numbered incorrectly no marks will be awarded.
+
+.	Please submit your assignment as a HTML file. This is done by knitting the RMarkdown file.
+
+----------------------------------------------------------------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Packages to use, message=FALSE, warning=FALSE, include=FALSE}
+library(readr)
+library(ggplot2)
+```
+# Introduction
+
+In this assignment we will be looking at various ways to visualize data in R. For this course we will focus on visualization using 'ggplot2', which is a very useful and easy to use library for creating visualizations.
+
+Let's consider the following dataset about rollercoasters:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+coasters <- read_delim("coasters.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+head(coasters)
+```
+
+
+#Basics of ggplot2
+
+Let's have a look at the basics of ggplot2. For example, create a scatterplot of the speed vs the height of a rollercoaster. To do this, we first define a plot using the data frame named 'coasters'.
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+plot <- ggplot(coasters, aes(x=Height, y=Speed))
+```
+Next we need to create the scatterplot of this defined plot using geom_point().
+```{r fig.width=5, fig.height=2.9, fig.align = 'center'}
+plot <- plot + geom_point()
+plot
+```
+
+###Example 
+The example below illustrates how to easily add color, labels and a title to the plot.
+```{r fig.width=7, fig.height=4, fig.align = 'center'}
+plot <- ggplot(coasters, aes(x=Height, y=Speed)) +
+        geom_point(aes(color=Speed), shape='*', size = 5) +
+        scale_colour_gradient(low='green',high='red') +
+        labs(title='Speed vs Height of rollercoasters')
+plot
+```
+
+#Question 1
+Answer the questions for this assignment in the R practical markdown template and knit it to HTML.
+
+a) Reproduce the scatterplot of Speed vs Height of rollercoasters. In your plot use a different characteristic of the rollercoaster for the color of the points, also add in X and Y labels and center the title of the plot.
+
+```{r}
+# Add your code here.
+plot <- ggplot(coasters, aes(x = Height, y = Speed)) + geom_point( aes(color=Length), shape="*", size = 5) + scale_colour_gradient(low = 'blue', high = 'red') + labs(title = "Speed vs Height of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+plot
+
+
+```
+
+
+b) Create a scatterplot of the Length vs Duration of a rollercoaster. (Hint: use na.rm = TRUE to omit null values). For this plot you may use color to highlight any relationship or characteristic you feel necessary. Remember the colors should add meaning to the plot.
+
+```{r}
+# Add your code here.
+
+
+
+
+```
+
+
+c) Interpret the plots you created in a) and b). Provide interpretations of the correlation between variables and why these plots may be useful when designing a model for this data.
+
+
+
+
+#Question 2 
+Consider the 'penguins.txt' file provided on ClickUp.
+
+Create a plot which provides meaningful information about the penguins' heart rates and dive heigths. Remember all aspects of this plot should be informative. Explain why your choice of plot can be useful when designing a model for this data.
+
+```{r}
+# Add your code here.
+
+
+
+```
+
+
+
+#Question 3
+Consider the 'txhousing.csv' file provided on ClickUp. Read the data into the data frame 'txhousin' as follows:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+txhousin <- read.csv(file="txhousin.csv", header=TRUE, sep=",")
+head(txhousin)
+```
+
+Create a histogram of the 'median' variable. Make sure your histogram includes the following: An appropriate title; the bars of the histogram are red and the histogram has 25 bins. Finally add a blue density curve to your histogram.
+
+```{r}
+# Add your code here.
+
+
+
+
+```
+
+
