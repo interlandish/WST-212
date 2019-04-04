@@ -55,7 +55,7 @@ In this assignment we will be looking at various ways to visualize data in R. Fo
 Let's consider the following dataset about rollercoasters:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-coasters <- read_delim("coasters.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+coasters <- read_delim("coasters-2015.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
 head(coasters)
 ```
 
@@ -89,8 +89,8 @@ a) Reproduce the scatterplot of Speed vs Height of rollercoasters. In your plot 
 
 ```{r}
 # Add your code here.
-plot <- ggplot(coasters, aes(x = Height, y = Speed)) + geom_point( aes(color=Length), shape="*", size = 5) + scale_colour_gradient(low = 'blue', high = 'red') + labs(title = "Speed vs Height of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
-plot
+coaster_plot_1 <- ggplot(coasters, aes(x = Height, y = Speed)) + geom_point( aes(color=Length), shape="*", size = 5) + scale_colour_gradient(low = 'blue', high = 'red') + labs(title = "Speed vs Height of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+coaster_plot_1
 
 
 ```
@@ -100,6 +100,8 @@ b) Create a scatterplot of the Length vs Duration of a rollercoaster. (Hint: use
 
 ```{r}
 # Add your code here.
+coaster_plot_2 <- ggplot(coasters, aes(x = Length, y = Duration)) + geom_point(na.rm = TRUE, aes(color = Height) ) + scale_colour_gradient(low = "green", high = "black") + labs(title="Length vs Duration of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+coaster_plot_2
 
 
 
@@ -119,12 +121,15 @@ Create a plot which provides meaningful information about the penguins' heart ra
 
 ```{r}
 # Add your code here.
+penguins <- read.delim("penguins.txt", "\t", header = TRUE, dec = ".")
 
+penguins_plot <- ggplot(penguins, aes(y = Dive.Heart.Rate , x = Depth.m.)) + geom_point(aes(color = Duration.min.)) + scale_color_gradient(low = "green", high = "black") 
+penguins_plot
 
 
 ```
 
-
+#comment for low depth vwlues heart
 
 #Question 3
 Consider the 'txhousing.csv' file provided on ClickUp. Read the data into the data frame 'txhousin' as follows:
@@ -138,7 +143,10 @@ Create a histogram of the 'median' variable. Make sure your histogram includes t
 
 ```{r}
 # Add your code here.
-
+histogram <- ggplot(txhousin, aes(x = median)) +  geom_histogram(na.rm = TRUE, bins = 25, fill = "red", color = "black", aes(y = ..density..)) + geom_density(na.rm = TRUE, aes(y = ..density..), color = "blue") + labs(title="Histogram and Density of Median") + theme(plot.title = element_text(hjust = 0.5))
+  
+  #hist(txhousin$median, col = "red", main = "Histogram and Density of Median", breaks = 25, prob = TRUE)
+histogram
 
 
 
