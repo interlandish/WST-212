@@ -41,7 +41,11 @@ coasters <- read_delim("coasters-2015.txt", "\t", escape_double = FALSE, trim_ws
 #Question 1 a) Solution 
 
 ```{r}
-coaster_plot_1 <- ggplot(coasters, aes(x = Height, y = Speed)) + geom_point( aes(color=Drop), shape = 18, size = 5) + scale_colour_gradient(low = 'blue', high = 'red') + labs(title = "Speed vs Height of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+coaster_plot_1 <- ggplot(coasters, aes(x = Height, y = Speed)) + 
+  geom_point( aes(color=Drop), shape = 18, size = 5) + 
+  scale_colour_gradient(low = 'blue', high = 'red') + 
+  labs(title = "Speed vs Height of rollercoasters") + 
+  theme(plot.title = element_text(hjust = 0.5))
 coaster_plot_1
 
 
@@ -51,7 +55,11 @@ coaster_plot_1
 #Question 1 b) Solution 
 
 ```{r}
-coaster_plot_2 <- ggplot(coasters, aes(x = Length, y = Duration)) + geom_point(na.rm = TRUE, shape = 19, aes(color = Height) ) + scale_colour_gradient(low = "green", high = "red") + labs(title="Length vs Duration of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+coaster_plot_2 <- ggplot(coasters, aes(x = Length, y = Duration)) + 
+  geom_point(na.rm = TRUE, shape = 19, aes(color = Height) ) + 
+  scale_colour_gradient(low = "green", high = "black") + 
+  labs(title="Length vs Duration of rollercoasters") + 
+  theme(plot.title = element_text(hjust = 0.5))
 coaster_plot_2
 
 
@@ -62,7 +70,17 @@ coaster_plot_2
 
 #Question 1 c) Solution 
 
+For question 1a).
 
+There is a strong positive linear relationship between the speed and the height of the rollercoasters. They are directly proportional to each other because as the speed of the rollercoaster increases, the height of the rollercoaster also increases. 
+
+The drop height of the rollercoaster also has a linear relationshipw with both the speed of the rollercoaster and the height of the rollercoaster. 
+
+For question 1b).
+
+There appears to be a weak positive relationship between the duration of the rollercoaster and the length of the rollercoaster. 
+
+The height of the roller coaster seems to have a positive relationship with the length of the rollercoaster. As the length of the rollercoaster increases, the height of the rollercoaster also increases. 
 
 
 #Question 2 Solution 
@@ -70,11 +88,20 @@ coaster_plot_2
 ```{r}
 penguins <- read.delim("penguins.txt", "\t", header = TRUE, dec = ".")
 
-penguins_plot <- ggplot(penguins, aes(y = Dive.Heart.Rate , x = Depth.m.)) + geom_point(aes(color = Duration.min.), shape = 17) + scale_color_gradient(low = "green", high = "black") + labs(title = "Depth of Dive vs Dive Heart Rate of Pegions") + theme( plot.title = element_text(hjust = 0.5) )
+penguins_plot <- ggplot(penguins, aes(y = Dive.Heart.Rate , x = Depth.m.)) + 
+  geom_point(aes(color = Duration.min.), shape = 17) + 
+  scale_color_gradient(low = "green", high = "black") + 
+  labs(title = "Depth of Dive vs Dive Heart Rate of Pegions") + 
+  theme( plot.title = element_text(hjust = 0.5) )
 penguins_plot
 
 
 ```
+Explaination 
+
+From observation, the Dive Heart Rate and Depth have a strong negative linear relationship when the Depth is lower than 75m. As the Depth increases beyond 75m the data adopts a weak positive relationship between Dive Heart Rate and Depth. 
+
+The Duration of the dive has a negative relationship with the Dive Heart Rate as the Duration of the dive increases as the Dive Heart Rate decreases. 
 
 #Question 3 Solution 
 
@@ -82,9 +109,12 @@ penguins_plot
 txhousin <- read.csv(file="txhousin.csv", header=TRUE, sep=",")
 ```
 ```{r}
-histogram <- ggplot(txhousin, aes(x = median)) +  geom_histogram(na.rm = TRUE, bins = 25, fill = "red", color = "black", aes(y = ..density..)) + geom_density(na.rm = TRUE, aes(y = ..density..), color = "blue") + labs(title="Histogram and Density of Median") + theme(plot.title = element_text(hjust = 0.5))
+histogram <- ggplot(txhousin, aes(x = median)) + 
+  geom_histogram(na.rm = TRUE, bins = 25, fill = "red", color = "black", aes(y = ..density..)) + 
+  geom_density(na.rm = TRUE, aes(y = ..density..), color = "blue") + 
+  labs(title="Histogram and Density of Median") + 
+  theme(plot.title = element_text(hjust = 0.5))
   
-  #hist(txhousin$median, col = "red", main = "Histogram and Density of Median", breaks = 25, prob = TRUE)
 histogram
 
 
