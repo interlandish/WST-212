@@ -3,9 +3,9 @@ title: "Assignment 4 Data Visualisation"
 author: 'WST 212 2019'
 date: "Due date 09 April 2019 before 13h00"
 output:
-  html_document: default
-  word_document: default
   pdf_document: default
+  word_document: default
+  html_document: default
 ---
 
 Group Number: 85
@@ -41,8 +41,7 @@ coasters <- read_delim("coasters-2015.txt", "\t", escape_double = FALSE, trim_ws
 #Question 1 a) Solution 
 
 ```{r}
-# Add your code here.
-coaster_plot_1 <- ggplot(coasters, aes(x = Height, y = Speed)) + geom_point( aes(color=Length), shape="*", size = 5) + scale_colour_gradient(low = 'blue', high = 'red') + labs(title = "Speed vs Height of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+coaster_plot_1 <- ggplot(coasters, aes(x = Height, y = Speed)) + geom_point( aes(color=Drop), shape = 18, size = 5) + scale_colour_gradient(low = 'blue', high = 'red') + labs(title = "Speed vs Height of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
 coaster_plot_1
 
 
@@ -52,8 +51,7 @@ coaster_plot_1
 #Question 1 b) Solution 
 
 ```{r}
-# Add your code here.
-coaster_plot_2 <- ggplot(coasters, aes(x = Length, y = Duration)) + geom_point(na.rm = TRUE, aes(color = Height) ) + scale_colour_gradient(low = "green", high = "black") + labs(title="Length vs Duration of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
+coaster_plot_2 <- ggplot(coasters, aes(x = Length, y = Duration)) + geom_point(na.rm = TRUE, shape = 19, aes(color = Height) ) + scale_colour_gradient(low = "green", high = "red") + labs(title="Length vs Duration of rollercoasters") + theme(plot.title = element_text(hjust = 0.5))
 coaster_plot_2
 
 
@@ -62,7 +60,7 @@ coaster_plot_2
 ```
 
 
-#Question 1 b) Solution 
+#Question 1 c) Solution 
 
 
 
@@ -70,10 +68,9 @@ coaster_plot_2
 #Question 2 Solution 
 
 ```{r}
-# Add your code here.
 penguins <- read.delim("penguins.txt", "\t", header = TRUE, dec = ".")
 
-penguins_plot <- ggplot(penguins, aes(y = Dive.Heart.Rate , x = Depth.m.)) + geom_point(aes(color = Duration.min.)) + scale_color_gradient(low = "green", high = "black") 
+penguins_plot <- ggplot(penguins, aes(y = Dive.Heart.Rate , x = Depth.m.)) + geom_point(aes(color = Duration.min.), shape = 17) + scale_color_gradient(low = "green", high = "black") + labs(title = "Depth of Dive vs Dive Heart Rate of Pegions") + theme( plot.title = element_text(hjust = 0.5) )
 penguins_plot
 
 
@@ -84,10 +81,7 @@ penguins_plot
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 txhousin <- read.csv(file="txhousin.csv", header=TRUE, sep=",")
 ```
-
-
 ```{r}
-# Add your code here.
 histogram <- ggplot(txhousin, aes(x = median)) +  geom_histogram(na.rm = TRUE, bins = 25, fill = "red", color = "black", aes(y = ..density..)) + geom_density(na.rm = TRUE, aes(y = ..density..), color = "blue") + labs(title="Histogram and Density of Median") + theme(plot.title = element_text(hjust = 0.5))
   
   #hist(txhousin$median, col = "red", main = "Histogram and Density of Median", breaks = 25, prob = TRUE)
@@ -96,5 +90,4 @@ histogram
 
 
 ```
-
 
