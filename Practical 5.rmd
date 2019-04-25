@@ -47,6 +47,7 @@ library(knitr)
 library(readr)
 library(lubridate)
 library(tidyr)
+
 ```
 
 Reading Data
@@ -97,15 +98,26 @@ burger$Meat <- factor(burger$Meat)
 burger$Breakfast <- factor(burger$Breakfast)
 burger$Not.Breakfast <- factor(burger$Not.Breakfast)
 
-
 ```
 
 
 d) Are there any redundant variable(s) in the dataset? If so, specify the variable(s) and remove the redundant variable(s). Also explain which variable(s) contains the same information and how to interpret the information.
 
-Yes, the Breakfast and Not.Breakfast variables are redundant since they 
+Yes, the Breakfast and Not.Breakfast variables are redundant since "0" for one variable implies a "1" in the other variable.They give the same information and are thus redundant.
+
+```{r}
+burger <- subset(burger, select = -c(Not.Breakfast))
+
+```
+
 
 e) Draw a boxplot of the calories of the different Burger King items. Can you identify any items which have significantly more calories than the others?
+```{r}
+
+
+boxplot(burger$Calories)
+
+```
 
 #Question 2
 Consider the 'coasters.txt' file provided on ClickUp.
@@ -126,5 +138,4 @@ An important process in data cleaning is handling missing values. Discuss **one*
 * Using the mean, median or mode in place of the missing value.
 * Using simple linear regression (see WST 111 notes)  to predict missing values.
 * Using K-nearest neighbours to predict missing values. 
-
 
