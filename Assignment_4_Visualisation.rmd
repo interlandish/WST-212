@@ -1,14 +1,14 @@
 ---
-title: "Assignment 4 Data Visualisation"
+title: "Assignment 5 - Data Wrangling"
 author: 'WST 212 2019'
-date: "Due date 09 April 2019 before 13h00"
+date: "Due date 30 April 2019 before 13h00"
 output:
   pdf_document: default
   word_document: default
   html_document: default
 ---
 
-Group Number: 85
+Group Number: 
 
 Group members: (Alphabetically)
 
@@ -21,103 +21,144 @@ Group members: (Alphabetically)
 4.)
 
 
+--------------------------------------------------------------------------------------------------------------
+
+Instructions:
+
+.	Not more than four students in a group.
+
+.	All students in a group will be allocated the same mark.
+
+.	Only submit one assignment per group.
+
+.	Only one submission per assignment will be allowed. Hence, only submit once all group members have agreed.
+
+.	Use template below to answer all questions. Make sure that your questions are numbered correctly and that your answers correspond to the correct questions. If your answer is numbered incorrectly no marks will be awarded.
+
+.	Please submit your assignment as a HTML file. This is done by knitting the RMarkdown file.
+
+----------------------------------------------------------------------------------------------------------------
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ```{r Packages to use, message=FALSE, warning=FALSE, include=FALSE}
+library(knitr)
 library(readr)
-library(ggplot2)
+library(lubridate)
+library(tidyr)
+
+```
+
+Reading Data
+```{r}
+
+coasters <- read.delim("coasters.txt", dec = ".", sep = "\t", header = TRUE)
+burger <- read.delim("burger-king-items.txt", sep = "\t", dec = ".", header = TRUE)
+
+
 ```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-coasters <- read_delim("coasters-2015.txt", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+#Question 1
+Answer the questions for this assignment in the R practical markdown template and knit it to PDF.
+
+a) Using the 'any(is.na)' function find out if there are any 'NA' values in the Burger King dataset.
+```{r}
+if(any(is.na(burger))) {
+  print("TRUE")
+} else {
+  print("FALSE")
+}
+
+
 ```
 
 
-
-#Question 1 a) Solution 
+b) Find the data types of all the variables in the dataset. Also provide a summary of the dataset.
 
 ```{r}
-coaster_plot_1 <- ggplot(coasters, aes(x = Height, y = Speed)) + 
-  geom_point( aes(color=Drop), shape = 18, size = 5) + 
-  scale_colour_gradient(low = 'blue', high = 'red') + 
-  labs(title = "Speed vs Height of rollercoasters") + 
-  theme(plot.title = element_text(hjust = 0.5))
-coaster_plot_1
 
+sapply(burger, typeof)
 
 ```
-
-
-#Question 1 b) Solution 
 
 ```{r}
-coaster_plot_2 <- ggplot(coasters, aes(x = Length, y = Duration)) + 
-  geom_point(na.rm = TRUE, shape = 19, aes(color = Height) ) + 
-  scale_colour_gradient(low = "green", high = "black") + 
-  labs(title="Length vs Duration of rollercoasters") + 
-  theme(plot.title = element_text(hjust = 0.5))
-coaster_plot_2
-
-
-
-
+summary(burger)
 ```
 
+c) Comment on which variables in the dataset could be catagorical variables. (Hint: These variables will only have a limited range of possible values such as '0','1' or '2'.) Convert these variables into factors to be used for modelling.
 
-#Question 1 c) Solution 
-
-For question 1a).
-
-There is a strong positive linear relationship between the speed and the height of the rollercoasters. They are directly proportional to each other because as the speed of the rollercoaster increases, the height of the rollercoaster also increases. 
-
-The drop height of the rollercoaster also has a linear relationshipw with both the speed of the rollercoaster and the height of the rollercoaster. 
-
-For question 1b).
-
-There appears to be a weak positive relationship between the duration of the rollercoaster and the length of the rollercoaster. 
-
-The height of the roller coaster seems to have a positive relationship with the length of the rollercoaster. As the length of the rollercoaster increases, the height of the rollercoaster also increases. 
-
-
-#Question 2 Solution 
+Variables Meat, Breakfast and Not.Breakfast can be converted into categorical variables since the value of these variables from the dataset are binary, "1" for yes and "0" for no, hence they have a limited range. 
 
 ```{r}
-penguins <- read.delim("penguins.txt", "\t", header = TRUE, dec = ".")
 
-penguins_plot <- ggplot(penguins, aes(y = Dive.Heart.Rate , x = Depth.m.)) + 
-  geom_point(aes(color = Duration.min.), shape = 17) + 
-  scale_color_gradient(low = "green", high = "black") + 
-  labs(title = "Depth of Dive vs Dive Heart Rate of Pegions") + 
-  theme( plot.title = element_text(hjust = 0.5) )
-penguins_plot
-
+burger$Meat <- factor(burger$Meat)
+burger$Breakfast <- factor(burger$Breakfast)
+burger$Not.Breakfast <- factor(burger$Not.Breakfast)
 
 ```
-Explaination 
 
-From observation, the Dive Heart Rate and Depth have a strong negative linear relationship when the Depth is lower than 75m. As the Depth increases beyond 75m the data adopts a weak positive relationship between Dive Heart Rate and Depth. 
 
-The Duration of the dive has a negative relationship with the Dive Heart Rate as the Duration of the dive increases as the Dive Heart Rate decreases. 
+d) Are there any redundant variable(s) in the dataset? If so, specify the variable(s) and remove the redundant variable(s). Also explain which variable(s) contains the same information and how to interpret the information.
 
-#Question 3 Solution 
+Yes, the Breakfast and Not.Breakfast variables are redundant since "0" for one variable implies a "1" in the other variable.They give the same information and are thus redundant.
 
-```{r echo=TRUE, message=FALSE, warning=FALSE}
-txhousin <- read.csv(file="txhousin.csv", header=TRUE, sep=",")
-```
 ```{r}
-histogram <- ggplot(txhousin, aes(x = median)) + 
-  geom_histogram(na.rm = TRUE, bins = 25, fill = "red", color = "black", aes(y = ..density..)) + 
-  geom_density(na.rm = TRUE, aes(y = ..density..), color = "blue") + 
-  labs(title="Histogram and Density of Median") + 
-  theme(plot.title = element_text(hjust = 0.5))
-  
-histogram
+burger <- subset(burger, select = -c(Not.Breakfast))
 
+```
+
+
+e) Draw a boxplot of the calories of the different Burger King items. Can you identify any items which have significantly more calories than the others?
+```{r}
+
+
+boxplot(burger$Calories)
+
+```
+
+#Question 2
+Consider the 'coasters.txt' file provided on ClickUp.
+
+Perform an exploratory analysis of the dataset provided. Identify missing values, data types, catagorical variables etc. Make use of a box plot or histogram to identify outliers. Prepare the data for visualization and modelling. Give a detailed explanation of the steps you followed in your data wrangling process.
+
+
+```{r}
+
+summary(is.na(coasters))
+
+```
+
+From the summary of NA values, we can see that there is a totla of 207 null values from the dataset, 123 from the Drop variable and 84 from the Duration variable. 
+
+```{r}
+
+sapply(coasters, typeof)
 
 
 ```
+
+```{r}
+
+coasters$Track <- factor(coasters$Track)
+coasters$Inversions <- factor(coasters$Inversions)
+
+```
+
+#Question 3
+Consider the 'Heart_data.csv' file provided on ClickUp. Provide a histogram of the age distribution as well as a frequency plot of the gender class.
+
+#Question 4
+Consider the 'Heart_data.csv' file provided on ClickUp. Provide a frequency plot of the *chd* variable. The *chd* variable is a binary indicator variable whose value should be either 1 for coronary heart disease present and 0 otherwise. Unfortunately the previous statistician captured a few *chd* response values incorrectly and has tasked you to correct this mistake. Ensure that you provide your methodolody as well as reasoning for your corrective measure. Provide the first 6 rows of the corrected variable. [Hint: Consider the "ifelse" function.]
+
+#Question 5
+An important process in data cleaning is handling missing values. Discuss **one** advantage and **one** disadvantage of each of the following techniques used to handle missing data. Make sure to mention the impact of the size of the data set and the type of the missing data (continuous or disctrete) where applicable. 
+
+
+* Deletion of entries (see Table 1 for example)
+* Using the mean, median or mode in place of the missing value.
+* Using simple linear regression (see WST 111 notes)  to predict missing values.
+* Using K-nearest neighbours to predict missing values. 
 
