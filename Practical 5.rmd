@@ -53,7 +53,7 @@ library(tidyr)
 Reading Data
 ```{r}
 
-coatsers <- read.delim("coasters.txt", dec = ".", sep = "\t", header = TRUE)
+coasters <- read.delim("coasters.txt", dec = ".", sep = "\t", header = TRUE)
 burger <- read.delim("burger-king-items.txt", sep = "\t", dec = ".", header = TRUE)
 
 
@@ -123,6 +123,17 @@ boxplot(burger$Calories)
 Consider the 'coasters.txt' file provided on ClickUp.
 
 Perform an exploratory analysis of the dataset provided. Identify missing values, data types, catagorical variables etc. Make use of a box plot or histogram to identify outliers. Prepare the data for visualization and modelling. Give a detailed explanation of the steps you followed in your data wrangling process.
+
+
+```{r}
+
+summary(is.na(coasters))
+
+sapply(coasters, typeof)
+
+coat
+
+```
 
 #Question 3
 Consider the 'Heart_data.csv' file provided on ClickUp. Provide a histogram of the age distribution as well as a frequency plot of the gender class.
