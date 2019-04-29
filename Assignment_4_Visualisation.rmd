@@ -3,16 +3,16 @@ title: "Assignment 5 - Data Wrangling"
 author: 'WST 212 2019'
 date: "Due date 30 April 2019 before 13h00"
 output:
-  pdf_document: default
-  word_document: default
   html_document: default
+  word_document: default
+  pdf_document: default
 ---
 
 Group Number: 
 
 Group members: (Alphabetically)
 
-1.) Modise KM
+1.)  Modise KM
 
 2.) Rakgalakane TTT
 
@@ -120,9 +120,6 @@ boxplot(burger$Calories)
 ```
 
 #Question 2
-Consider the 'coasters.txt' file provided on ClickUp.
-
-Perform an exploratory analysis of the dataset provided. Identify missing values, data types, catagorical variables etc. Make use of a box plot or histogram to identify outliers. Prepare the data for visualization and modelling. Give a detailed explanation of the steps you followed in your data wrangling process.
 
 
 ```{r}
@@ -131,27 +128,66 @@ summary(is.na(coasters))
 
 ```
 
-From the summary of NA values, we can see that there is a totla of 207 null values from the dataset, 123 from the Drop variable and 84 from the Duration variable. 
+From the summary we can see that there is a total of 207 missing values. 123 of these values come from the "Drop" variable white the remaining 84 come from the "Duration" variable. None of the other variables have missing values.
 
 ```{r}
-
 sapply(coasters, typeof)
-
 
 ```
 
-```{r}
+From the output above we can see that the dataset have total of nine variables, five of which are of type integer and four of which are of type double.
 
+**Frequency of values for the "Track Variable"**
+```{r}
+table(coasters$Track)
+```
+
+**Frequency of values for the "Inversions" variable**
+```{r}
+table(coasters$Inversions)
+```
+
+From the output above we can see that the "Track" and "Inversions" variables from the coasters dataset can only take on two possible values each. Since they have a limited range of values, we can consider them to be categorical variables and convert them into factors.
+
+```{r}
 coasters$Track <- factor(coasters$Track)
 coasters$Inversions <- factor(coasters$Inversions)
-
 ```
 
 #Question 3
 Consider the 'Heart_data.csv' file provided on ClickUp. Provide a histogram of the age distribution as well as a frequency plot of the gender class.
 
+``` {r}
+
+heart <- read.delim("Heart_data.csv", sep = ",", dec = ".", header = TRUE)
+
+
+heart <- separate(data = heart, gender.age, into = c("gender", "age"), sep = " ")
+heart$age <- as.numeric(heart$age)
+heart$gender <- factor(heart$gender)
+
+hist(heart$age, main = "Histogram of Age", xlab = "Age")
+
+barplot(table(heart$gender), main = "Frequency plot of Gender", xlab = "Gender")
+
+```
+
 #Question 4
 Consider the 'Heart_data.csv' file provided on ClickUp. Provide a frequency plot of the *chd* variable. The *chd* variable is a binary indicator variable whose value should be either 1 for coronary heart disease present and 0 otherwise. Unfortunately the previous statistician captured a few *chd* response values incorrectly and has tasked you to correct this mistake. Ensure that you provide your methodolody as well as reasoning for your corrective measure. Provide the first 6 rows of the corrected variable. [Hint: Consider the "ifelse" function.]
+
+```{r}
+
+correct_values = 0
+for(index in 1:length(heart$chd)) {
+  
+  ifelse( heart$chd[index] == 1 || heart$chd[index] == 0, correct_values <- correct_values + 1, heart$chd[index] <- heart$chd[index] ) 
+
+}
+
+correct_values / length(heart$chd)
+
+```
+
 
 #Question 5
 An important process in data cleaning is handling missing values. Discuss **one** advantage and **one** disadvantage of each of the following techniques used to handle missing data. Make sure to mention the impact of the size of the data set and the type of the missing data (continuous or disctrete) where applicable. 
