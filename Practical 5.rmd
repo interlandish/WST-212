@@ -3,20 +3,20 @@ title: "Assignment 5 - Data Wrangling"
 author: 'WST 212 2019'
 date: "Due date 30 April 2019 before 13h00"
 output:
-  pdf_document: default
-  word_document: default
   html_document: default
+  word_document: default
+  pdf_document: default
 ---
 
 Group Number: 
 
 Group members: (Alphabetically)
 
-1.) Modise 
+1.)  Modise KM
 
-2.)
+2.) Rakgalakane TTT
 
-3.)
+3.) Tsoku K
 
 4.)
 
@@ -43,10 +43,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r Packages to use, message=FALSE, warning=FALSE, include=FALSE}
+
 library(knitr)
 library(readr)
 library(lubridate)
 library(tidyr)
+
 
 ```
 
@@ -120,26 +122,95 @@ boxplot(burger$Calories)
 ```
 
 #Question 2
-Consider the 'coasters.txt' file provided on ClickUp.
-
-Perform an exploratory analysis of the dataset provided. Identify missing values, data types, catagorical variables etc. Make use of a box plot or histogram to identify outliers. Prepare the data for visualization and modelling. Give a detailed explanation of the steps you followed in your data wrangling process.
 
 
 ```{r}
 
 summary(is.na(coasters))
 
+```
+
+From the summary we can see that there is a total of 207 missing values. 123 of these values come from the "Drop" variable white the remaining 84 come from the "Duration" variable. None of the other variables have missing values.
+
+```{r}
 sapply(coasters, typeof)
 
-coat
+```
 
+From the output above we can see that the dataset have total of nine variables, five of which are of type integer and four of which are of type double.
+
+**Frequency of values for the "Track Variable"**
+```{r}
+table(coasters$Track)
+```
+
+**Frequency of values for the "Inversions" variable**
+```{r}
+table(coasters$Inversions)
+```
+
+From the output above we can see that the "Track" and "Inversions" variables from the coasters dataset can only take on two possible values each. Since they have a limited range of values, we can consider them to be categorical variables and convert them into factors.
+
+```{r}
+coasters$Track <- factor(coasters$Track)
+coasters$Inversions <- factor(coasters$Inversions)
 ```
 
 #Question 3
 Consider the 'Heart_data.csv' file provided on ClickUp. Provide a histogram of the age distribution as well as a frequency plot of the gender class.
 
+```{r}
+
+heart <- read.delim("Heart_data.csv", sep = ",", dec = ".", header = TRUE)
+
+
+heart <- separate(data = heart, gender.age, into = c("gender", "age"), sep = " ")
+heart$age <- as.numeric(heart$age)
+heart$gender <- factor(heart$gender)
+
+hist(heart$age, main = "Histogram of Age", xlab = "Age")
+
+barplot(table(heart$gender), main = "Frequency plot of Gender", xlab = "Gender")
+
+```
+
 #Question 4
 Consider the 'Heart_data.csv' file provided on ClickUp. Provide a frequency plot of the *chd* variable. The *chd* variable is a binary indicator variable whose value should be either 1 for coronary heart disease present and 0 otherwise. Unfortunately the previous statistician captured a few *chd* response values incorrectly and has tasked you to correct this mistake. Ensure that you provide your methodolody as well as reasoning for your corrective measure. Provide the first 6 rows of the corrected variable. [Hint: Consider the "ifelse" function.]
+
+```{r}
+
+correct_values = 0
+number_of_initial_values <- length(heart$chd)
+values_to_remove <- 0
+summary(heart)
+for(index in 1:length(heart$chd)) {
+  
+  ifelse( heart$chd[index] == 1 || heart$chd[index] == 0, correct_values <- correct_values + 1 , heart$chd[index] <- NA ) 
+
+}
+
+print(paste("Correct Values = ", round(correct_values / number_of_initial_values * 100 ,2), "%"))
+
+heartd <- heart
+
+head(heartd$chd)
+summary(heartd)
+```
+
+**Comment**
+We are not sure what method the statistician used to enter the values, thus we cannot give the statistican the benefit of the doubt by assumming that they were using a number pad on a computer and accidentally clicked on the wrong button or whether they were entered using a voice assistant who could not interpret his voice.
+
+We also cannot assume that values close to either 1 or 0 were meant to be entered as either 1 or 0 because the variable is a categorical variable. 
+
+```{r}
+print(paste("incorrect Values = ", round(  (1 - correct_values / number_of_initial_values) * 100 ,2), "%"))
+```
+
+From the above output we can see that from the initial dataset, we can see that incorrectly entered values only account for 4.11% of of the total entries in our dataset. Which can be considered as negligible. We this decided to remove these incorrectly entered values.
+
+Another reason why we chose to remove the incorrectly entered values is because if this information were to be used to allocate diagnosis to people to these people. incorrectly categorising these values as 
+
+Because this is a categorical variable, checking the distance of the variable from the possible values does not help us. 
 
 #Question 5
 An important process in data cleaning is handling missing values. Discuss **one** advantage and **one** disadvantage of each of the following techniques used to handle missing data. Make sure to mention the impact of the size of the data set and the type of the missing data (continuous or disctrete) where applicable. 
@@ -149,4 +220,3 @@ An important process in data cleaning is handling missing values. Discuss **one*
 * Using the mean, median or mode in place of the missing value.
 * Using simple linear regression (see WST 111 notes)  to predict missing values.
 * Using K-nearest neighbours to predict missing values. 
-
