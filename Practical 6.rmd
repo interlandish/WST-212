@@ -1,0 +1,98 @@
+---
+title: 'Practical 6: Logistic regression and K means clustering'
+author: "WST 212 2019"
+date: "Due date: 20 May on or before 14h30"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r echo=FALSE, message=FALSE}
+library(readr)
+library(tidyverse)
+library(datasets)
+library(ggplot2)
+library(grid)
+library(png)
+library(readxl)
+library(KODAMA)
+
+```
+
+# **Question 1**
+
+
+```{r}
+Grades = read_excel("Grades.xls")
+
+Grades$LetterGrade = NULL
+Grades$GRADE = ifelse(Grades$GRADE == 1, "A", "BC")
+
+Grades$GRADE = as.factor(Grades$GRADE)
+Grades$PSI = as.factor(Grades$PSI)
+
+Grades.logistic1 = glm(GRADE ~., data = Grades, family = binomial(link = logit))
+summary(Grades.logistic1)
+
+Grades.logistic3 = glm(GRADE ~.  -TUCE, data = Grades, family = binomial(link = logit))
+summary(Grades.logistic3)
+
+
+```
+The final model is given by
+$ln(\frac{\hat{p}(y-1)}{1-\hat{p}(y-1)})=\hat{\beta}_{0}+\hat{\beta}_{1}(GPA)+\hat{\beta}_{2}(PSI)$
+
+The best model is
+
+# **Question 2**
+```{r}
+
+```
+
+
+Show in New WindowClear OutputExpand/Collapse Output
+ Show Traceback
+Error in library(readr) : there is no package called ‘readr’
+# **Question 3**
+
+```{r , message=FALSE}
+img = readPNG("cluster_image.png")
+
+# Obtain the dimension
+imgDm = dim(img)
+
+# Create the data matrix
+d1 = data.frame(
+  R = matrix(img[,,1], ncol=1),
+  G = matrix(img[,,2], ncol=1),
+  B = matrix(img[,,3], ncol=1)
+)
+
+# Cluster image
+ #Fill in cluster number here
+num_clust = ...   
+clusts = kmeans(d1, centers = num_clust)
+#get centroids
+centers = clusts$centers    
+#replace all clustered RGB entries with centroids
+d2=centers[clusts$cluster,] 
+
+#create a char vector of hex decimal for data from d2
+img2 = rgb(d2[,1],d2[,2],d2[,3]) 
+#reshape the char vector into dimensions of original image
+dim(img2) = c(imgDm[1],imgDm[2]) 
+
+grid.newpage()
+grid.raster(img2)
+```
+
+
+# **Question 4**
+
+```{r}
+
+```
+
+
+
+
