@@ -42,7 +42,17 @@ summary(Grades.logistic3)
 The final model is given by
 $ln(\frac{\hat{p}(y-1)}{1-\hat{p}(y-1)})=\hat{\beta}_{0}+\hat{\beta}_{1}(GPA)+\hat{\beta}_{2}(PSI)$
 
-The best model is
+The best model is:
+
+$ln(\frac{\hat{p}(y-1)}{1-\hat{p}(y-1)})=-11.602+3063(GPA)+2.338(PSI)$
+
+Now we have that
+
+$p=\frac{\exp(\hat{\beta}_{0}+\hat{\beta}_{1}(GPA)+\hat{\beta}_2(PSI))}{1+\exp(\hat{\beta}_{0}+\hat{beta}_{1}(GPA)+\hat{\beta}_{2}(PSI))} = \frac{odds}{1+odds}$
+
+**c)**
+1) $p=\frac{\exp(-11.602 + 3.063(3) + 2.338(1))}{1 + \exp(-11.602 + 3.063(3) + 2.338(1)} = 0.4812$
+
 
 # **Question 2**
 ```{r}
